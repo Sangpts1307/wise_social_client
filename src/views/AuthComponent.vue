@@ -297,7 +297,7 @@ import axios from 'axios';
                 if (this.registerTOS === true) {
                     this.registerTOS = false;
                 }
-                if (this.registerTOS === true) {
+                if (this.registerTOS === false) {
                     this.registerTOS = true;
                 }
             },
