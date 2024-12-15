@@ -5,7 +5,6 @@ import IndexComponent from './views/IndexComponent.vue';
 import MyProfileComponent from './views/MyProfileComponent.vue';
 import UserProfileComponent from './views/UserProfileComponent.vue';
 import MessageComponent from './views/MessageComponent.vue';
-
 </script>
 
 <template>

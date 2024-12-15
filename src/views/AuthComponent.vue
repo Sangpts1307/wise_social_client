@@ -389,16 +389,14 @@ import axios from 'axios';
                 // Disabled button register
                 this.loginProcess = true;
                 try {
-                    const callRegisterAPI = await axios.post('http://localhost/wise_social_api/public/api/login', {
+                    const callRegisterAPI = await axios.post('http://wise_social_api.test/api/login', {
                         // Pass param to header
                         email: this.loginEmail,
                         password: this.loginPassword,
                     }).then(function (res) {
                         // Api response success
                         if (res.data.code == 200) {
-                            console.log(res.data);
-                            
-                            // window.location.href = "/index";
+                            window.location.href = "/index";
                         } else {
                             alert(res.data.message);
                         }
