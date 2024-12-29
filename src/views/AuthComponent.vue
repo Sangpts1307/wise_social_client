@@ -352,7 +352,7 @@ import axios from 'axios';
                 this.registerCheckAllow();
                 this.registerProcess = true;
                 try {
-                    const callRegisterAPI = await axios.post('http://wise_social_api.test/api/register', {
+                    const callRegisterAPI = await axios.post('http://localhost/wise_social_api/public/api/register', {
                         // Pass param to header
                         name: this.registerFullName,
                         email: this.registerEmail,
@@ -389,15 +389,16 @@ import axios from 'axios';
                 // Disabled button register
                 this.loginProcess = true;
                 try {
-                    const callRegisterAPI = await axios.post('http://wise_social_api.test/api/login', {
+                    const callRegisterAPI = await axios.post('http://localhost/wise_social_api/public/api/login', {
                         // Pass param to header
                         email: this.loginEmail,
                         password: this.loginPassword,
                     }).then(function (res) {
                         // Api response success
                         if (res.data.code == 200) {
-                            console.log(res.data.data.plainTextToken);
-                            // window.location.href = "/index";
+                            // Save to session storage
+                            sessionStorage.setItem("token", res.data.data.plainTextToken);
+                            window.location.href = "/index";
                         } else {
                             alert(res.data.message);
                         }
