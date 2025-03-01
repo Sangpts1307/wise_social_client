@@ -121,6 +121,7 @@
 
 <script>
 import axios from 'axios';
+import { requestPermission } from "../firebase"; // Import firebase settings
 
     //import Vue from 'vue'
     //import axios from 'axios'
@@ -159,6 +160,7 @@ import axios from 'axios';
                 loginErrEmailMsg: '',
                 loginErrPasswordMsg: '',
                 loginProcess: false,
+                token: null
             }
         },
         /**
@@ -199,6 +201,9 @@ import axios from 'axios';
              **********************************************************************************************************/
             msg() {
                 console.log("When the value of the msg variable changes, this method will be executed.");
+            },
+            token() {
+                alert(this.token);
             }
         },
         computed: {
@@ -398,7 +403,24 @@ import axios from 'axios';
                         if (res.data.code == 200) {
                             // Save to session storage
                             sessionStorage.setItem("token", res.data.data.plainTextToken);
-                            window.location.href = "/index";
+                            // Request notification permission when the app starts. // work with firebase
+                            requestPermission().then(fcmToken => {
+                                // Using axios call to server add token to DB
+                                axios.get('http://localhost/wise_social_api/public/api/setDeviceToken', {
+                                    // Pass param to header
+                                    headers: {
+                                        "Content-type" : "application/json",
+                                        "Authorization": "Bearer " + res.data.data.plainTextToken
+                                    },
+                                    params: {
+                                        fcmToken: fcmToken,
+                                    }
+                                }).then(function() {
+                                    window.location.href = "/index";
+                                });
+                            }).catch(err => {
+                                console.error("Get token ereors: :", err);
+                            });
                         } else {
                             alert(res.data.message);
                         }
